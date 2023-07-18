@@ -36,7 +36,12 @@ function Login(){
         .then((res) => 
             {
                 if (res.status == '201'){
+                    alert('회원가입이 완료되었습니다.');
                     setRegister(false);
+                    setID('');
+                    setName('');
+                    setPassword('');
+                    setConfirmPassword('');
                 }else{
                     alert('이미 존재하는 아이디입니다.');
                 }
