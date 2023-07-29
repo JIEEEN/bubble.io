@@ -1,5 +1,5 @@
 import styles from '../style/Login.module.css';
-import {useState, useEffect, history} from 'react';
+import React, {useState, useEffect, history} from 'react';
 import logo from '../assets/logo512.png';
 import Loading from './Loading';
 import { setCookie } from '../util/cookie/index';

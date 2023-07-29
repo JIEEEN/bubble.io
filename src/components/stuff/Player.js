@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-import { playerPosToIndex, playerMoveIndex } from '../util/Pos.js';
+import { playerPosToIndex } from '../util/Pos.js';
 
 function Player({board}) {
     const savedCallback = useRef();
@@ -25,10 +25,6 @@ function Player({board}) {
         const timer = setInterval(tick, 10);
         return () => clearInterval(timer);
     }, []);
-
-    // setInterval(() => {
-    //     console.log(postop, posleft);
-    // }, 500);
 
     const callback = () => {
         if(isup && checkWall(0, postop, posleft, board)){
@@ -108,27 +104,28 @@ function Player({board}) {
 }
 
 const checkWall = (dir, postop, posleft, board) => {
-    const playerPosIndex = playerPosToIndex(postop, posleft);
-    const playerRealIndex = playerMoveIndex(postop, posleft);
-
     switch(dir){
         case 0: //up
-            if (postop <= 1 || (playerPosIndex.top >= 1 && board[playerRealIndex.top-1][playerRealIndex.left] != 0))
+            const playerPosUpIndex = playerPosToIndex(postop-30, posleft);
+            if (postop <= 1 || (playerPosUpIndex.top >= 1 && board[playerPosUpIndex.top][playerPosUpIndex.left] != 0))
                 return false;
             else return true;
             break;
         case 1: //down
-            if (postop >= 601 || (playerPosIndex.top <= 11 && board[playerRealIndex.top+1][playerRealIndex.left] != 0))
+            const playerPosDownIndex = playerPosToIndex(postop+24, posleft);
+            if (postop >= 601 || (playerPosDownIndex.top <= 11 && board[playerPosDownIndex.top][playerPosDownIndex.left] != 0))
                 return false;
             else return true;
             break;
         case 2: //left
-            if (posleft <= 1 || (playerPosIndex.left >= 1 && board[playerRealIndex.top][playerRealIndex.left-1] != 0)){
+            const playerPosLeftIndex = playerPosToIndex(postop, posleft-30);
+            if (posleft <= 1 || (playerPosLeftIndex.left >= 1 && board[playerPosLeftIndex.top][playerPosLeftIndex.left] != 0)){
                 return false;}
             else return true;
             break;
         case 3: //right
-            if (posleft >= 729 || (playerPosIndex.left <= 13 && board[playerRealIndex.top][playerRealIndex.left+1] != 0))
+            const playerPosRightIndex = playerPosToIndex(postop, posleft+24);
+            if (posleft >= 729 || (playerPosRightIndex.left <= 13 && board[playerPosRightIndex.top][playerPosRightIndex.left] != 0))
                 return false;
             else return true;
             break;

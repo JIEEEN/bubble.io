@@ -35,7 +35,7 @@
 }
 
 .idBox{
-    color: rgb(194, 194, 194);
+    color: rgb(0, 0, 0);
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     padding: 10px;
@@ -45,7 +45,7 @@
     background-color: transparent;
     height: 27px;
     width: 300px;
-    border: 2px solid rgba(178, 178, 178, 0.23);
+    border: 2px solid rgba(100, 100, 100, 0.23);
     border-radius: 7px;
 }
 .idBox:hover{

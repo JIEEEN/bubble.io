@@ -6,11 +6,5 @@ const playerPosToIndex = (postop, posleft) => {
     return {top: topIndex, left: leftIndex}
 }
 
-const playerMoveIndex = (postop, posleft) => {
-    const topIndex = Math.floor(postop/50);
-    const leftIndex = Math.floor(posleft/50);
 
-    return {top: topIndex, left: leftIndex}
-}
-
-export { playerPosToIndex, playerMoveIndex }
+export { playerPosToIndex }
