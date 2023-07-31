@@ -1,4 +1,5 @@
-import styles from '../style/Login.module.css';
+import lstyles from '../style/Login.module.css';
+import bstyles from '../style/Button.module.css';
 import React, {useState, useEffect, history} from 'react';
 import logo from '../assets/logo512.png';
 import Loading from './Loading';
@@ -75,14 +76,17 @@ function Login(){
     return (
         <>
             <div>
-                <img src={logo} className={styles.images}></img>
+                <img src={logo} className={lstyles.images}></img>
             </div>
-            <div className={styles.loginBox}>
+            <div className={lstyles.loginBox} style={{
+                width: 400,
+                height: 400,
+            }}>
                 <form>
                     <div>
                         <input
                             type="text"
-                            className={styles.idBox}
+                            className={lstyles.idBox}
                             placeholder="id"
                             value={id}
                             onChange={(e) => {
@@ -95,7 +99,7 @@ function Login(){
                         <br></br>
                         <div>
                             <input
-                                className={styles.idBox}
+                                className={lstyles.idBox}
                                 placeholder="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -106,7 +110,7 @@ function Login(){
                     <br></br>
                     <div>
                         <input
-                            className={styles.idBox}
+                            className={lstyles.idBox}
                             placeholder="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -132,7 +136,7 @@ function Login(){
                             <br></br>
                             <div>
                                 <input
-                                    className={styles.idBox}
+                                    className={lstyles.idBox}
                                     placeholder="confirm password"
                                     value={confirmpassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -143,7 +147,11 @@ function Login(){
                     <br></br>
                     <button 
                         type="button"
-                        className={styles.btn}
+                        className={bstyles.btn}
+                        style={{
+                            top: 50,
+                            left: "10%"
+                        }}
                         onClick={register? submitRegister : submitLogin}
                     >
                     {register? "Register":"Login"}</button>

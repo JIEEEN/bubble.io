@@ -1,0 +1,17 @@
+
+.btn{
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    padding:10px;
+    border: 2px solid rgb(180, 176, 176);
+    border-radius: 5px;
+    position: relative;
+    /* top: 50px; */
+    /* left: 10%; */
+    width: 323px;
+    background-color: rgb(110, 217, 251);
+}
+.btn:hover{
+    background-color: rgba(110, 217, 251, 0.5);
+    cursor: pointer;
+}
