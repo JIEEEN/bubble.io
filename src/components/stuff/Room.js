@@ -1,66 +1,68 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import MakeRoomform from './CreateRoom';
+import {Socket, io} from 'socket.io-client';
 import bstyles from '../../style/Button.module.css';
-import lstyles from '../../style/Login.module.css';
-import React, { useState } from 'react';
-import {socket} from '../util/socket';
 
-function RoomList({ rooms }) {
+// const socket = io("http://34.64.54.128:8080/events", {transports: ["websocket"]});
+export const socket = io("http://127.0.0.1:8080/events", { transports: ["websocket"] });
 
-}
+function Room() {
+    const [rooms, setRooms] = useState([]);
+    const navigate = useNavigate();
 
-function CreateRoom({ roomLength }) {
-    const [making, setMaking] = useState(false);
+    useEffect(() => {
+        socket.on('roomList', (roomList) => {
+            setRooms(roomList);
+        });
 
-    const goMakeForm = () => {
-        setMaking(true);
-    }
+        socket.emit('getRoomList', (roomList) => setRooms(roomList));
+
+        return () => {
+            socket.off('roomList');
+        }
+    }, []);
+
 
     return (
         <>
-            {making || roomLength >= 1 ? null : <h2 style={{ fontFamily: "'Courier New', Courier, mono", }}>There has no room yet!</h2>}
-            {making ? <MakeRoomform /> : <div
-                className={bstyles.btn}
-                style={{
-                    textAlign: 'center',
+            {rooms.length > 0 ? <RoomList rooms={rooms} /> :
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    flexDirection: 'column',
                 }}
-                onClick={goMakeForm}
-            >
-                Create Room
-            </div>}
+                >
+                    {rooms.length >= 1 ? null : <h2 style={{ fontFamily: "'Courier New', Courier, mono", }}>There has no room yet!</h2>}
+                    <div
+                        className={bstyles.btn}
+                        style={{
+                            textAlign: 'center',
+                        }}
+                        onClick={() => navigate('/room/create')}
+                    >
+                        Create Room
+                    </div>
+                </div>
+            }
         </>
     )
 }
 
-const MakeRoomform = () => {
-    console.log(socket);
-    const [room, setRoom] = useState('');
-    const createRoom = () => {
-        if (room !== "") {
-            socket.emit('createRoom', {
-                room: room
-            });
-        }
-    }
-
+function RoomList({ rooms }) {
     return (
-        <div className={lstyles.loginBox}
-            style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 400,
-                height: 300,
-            }}>
-            <div>
-                <input className={lstyles.idBox} placeholder="Room Name"
-                    onChange={(e) => setRoom(e.target.value)} />
-            </div>
-            <button className={bstyles.btn} style={{
-                top: 175,
-                left: "10%"
-            }}
-                onClick={createRoom}
-            >Create</button>
-        </div>
-    )
+        <>
+            {rooms.map((room, index) => {
+                return (
+                    <li key={index}>{room}</li>
+                )
+            })
+        }
+        </>
+    );
 }
 
-export { RoomList, CreateRoom }
+
+export default Room;

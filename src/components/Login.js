@@ -67,7 +67,7 @@ function Login(){
             const jwtToken = data.access_token;
 
             setCookie('jwt', jwtToken, 1);
-            navigate('/game');
+            navigate('/room/list');
         }else{
             setFail(true);
         }
@@ -79,6 +79,7 @@ function Login(){
                 <img src={logo} className={lstyles.images}></img>
             </div>
             <div className={lstyles.loginBox} style={{
+                top: '60%',
                 width: 400,
                 height: 400,
             }}>
