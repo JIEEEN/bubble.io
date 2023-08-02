@@ -7,12 +7,14 @@ import { useNavigate } from 'react-router-dom';
 
 function CreateRoom() {
     const [room, setRoom] = useState('');
+    const [roompwd, setRoomPwd] = useState('');
     const navigate = useNavigate();
 
     const createRoom = () => {
         if (room !== "") {
             socket.emit('createRoom', {
                 room: room,
+                roompwd: roompwd,
             });
         }
         navigate('/room/list');
@@ -30,9 +32,13 @@ function CreateRoom() {
             <div>
                 <input className={lstyles.idBox} placeholder="Room Name"
                     onChange={(e) => setRoom(e.target.value)} />
+                    <br></br>
+                    <br></br>
+                <input className={lstyles.idBox} placeholder="Room Password"
+                    onChange={(e) => setRoomPwd(e.target.value)} />
             </div>
             <button className={bstyles.btn} style={{
-                top: 175,
+                top: 105,
                 left: "10%"
             }}
                 onClick={createRoom}
