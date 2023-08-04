@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {Blank, Obstacle, Box} from './stuff/Block';
 import Player from './stuff/Player';
 

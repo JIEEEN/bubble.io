@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 function Blank(){ // # 0: Empty Square
     return (

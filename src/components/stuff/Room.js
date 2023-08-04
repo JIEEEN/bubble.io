@@ -25,7 +25,7 @@ function Room() {
 
 
     return (
-        <>
+        <div style={{ height: "100vh" }}>
             {rooms.length > 0 ? <RoomList rooms={rooms} /> :
                 // <OverlayExample /> :
                 <div style={{
@@ -52,94 +52,118 @@ function Room() {
                     </div>
                 </div>
             }
-            <button onClick={() => navigate('/room/create')}>qwer</button>
-        </>
+            <div style={{ top: 100 }}>
+                {rooms.length >= 1 ? <button className={bstyles.btn}
+                    style={{
+                        position: 'absolute',
+                        top: '90%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 250,
+                    }}
+                    onClick={() => navigate('/room/create')}>create</button> : null}
+            </div>
+        </div>
     )
 }
 
 function RoomList({ rooms }) {
     const [showOverlay, setShowOverlay] = useState(false);
     const [delroom, setDelRoom] = useState({});
+    const navigate = useNavigate();
 
     const handleButtonClick = () => {
         setShowOverlay(true);
     };
-    const handleOverlayClose = () => {
-        setShowOverlay(false);
-    };
-
-    const joinRoom = () => {
-        
+    const joinRoom = (room) => {
+        socket.emit('joinRoom', {
+            room: room,
+        });
     };
 
     return (
         <>
-            {rooms.map((room, index) => {
-                return (
-                    <>
-                        <div key={index} className={lstyles.loginBox}
-                            style={{
-                                textAlign: 'center',
-                                position: 'relative',
-                                width: 200,
-                                height: 100,
-                                top: 100,
-                                left: '20%',
-                                float: 'left',
-                                margin: 10,
-                            }}>
-                            <span style={{ position: 'relative', top: 15, display: 'inline-block', verticalAlign: 'middle',
-                            fontFamily: '"Courier New", Courier, monospace'}}>
-                                {room.roomNum}
-                            </span>
-                            <button className={bstyles.btn} style={{
-                                width: 75,
-                                top: 50,
-                                left: "8%",
-                                position: 'absolute',
-                            }}
-                                onClick={joinRoom}
-                            >join
-                            </button>
-                            <button className={bstyles.btn} style={{
-                                width: 75,
-                                top: 50,
-                                left: "55%",
-                                position: 'absolute',
-                            }}
-                                onClick={() => {
-                                    handleButtonClick();
-                                    setDelRoom(room);
+            <h1 style={{
+                fontFamily: '"Courier New", Courier, monospace',
+                fontSize: 30,
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'block',
+                position: 'absolute',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            }}>Room List</h1>
+            <div style={{
+                top: 100,
+                left: 150,
+                position: 'relative',
+            }}>
+                {rooms.map((room, index) => {
+                    return (
+                        <>
+                            <div key={index} className={lstyles.loginBox}
+                                style={{
+                                    textAlign: 'center',
+                                    position: 'static',
+                                    width: 200,
+                                    height: 100,
+                                    display: 'inline-block',
+                                    float: 'left',
+                                    margin: 10,
+                                }}>
+                                <span style={{
+                                    position: 'relative', top: 15, display: 'inline-block', verticalAlign: 'middle',
+                                    fontFamily: '"Courier New", Courier, monospace'
+                                }}>
+                                    {room.roomNum}
+                                </span>
+                                <button className={bstyles.btn} style={{
+                                    width: 75,
+                                    top: 50,
+                                    left: "8%",
+                                    position: 'absolute',
                                 }}
-                            >delete
-                            </button>
-                        </div>
-                    </>
-                )
-            })
-            }
-            {showOverlay && (<div className={lstyles.overlay}>
-                <div className={lstyles.loginBox}
-                    style={{
-                        borderColor: 'rgb(132, 127, 127)',
-                        width: 300,
-                        height: 200,
-                        top: '50%',
-                    }}>
-                    {<DeleteForm delroom={delroom} setOverlay={setShowOverlay}/>}
-                </div>
-            </div>)}
+                                    onClick={() => joinRoom(room)}
+                                >join
+                                </button>
+                                <button className={bstyles.btn} style={{
+                                    width: 75,
+                                    top: 50,
+                                    left: "55%",
+                                    position: 'absolute',
+                                }}
+                                    onClick={() => {
+                                        handleButtonClick();
+                                        setDelRoom(room);
+                                    }}
+                                >delete
+                                </button>
+                            </div>
+                        </>
+                    )
+                })
+                }
+                {showOverlay && (<div className={lstyles.overlay}>
+                    <div className={lstyles.loginBox}
+                        style={{
+                            borderColor: 'rgb(132, 127, 127)',
+                            width: 300,
+                            height: 200,
+                            top: '50%',
+                        }}>
+                        {<DeleteForm delroom={delroom} setOverlay={setShowOverlay} />}
+                    </div>
+                </div>)}
+            </div>
         </>
     );
 }
 
-function DeleteForm({delroom, setOverlay}) {
+function DeleteForm({ delroom, setOverlay }) {
     const [password, setPassword] = useState('');
-    const [close, setClose] = useState(false);
-    const navigate = useNavigate();
 
     const checkPassword = (password, e) => {
-        if (delroom.roomPwd === password){
+        if (delroom.roomPwd === password) {
             socket.emit('deleteRoom', {
                 room: delroom,
             });
@@ -150,7 +174,7 @@ function DeleteForm({delroom, setOverlay}) {
     return (
         <>
             <input className={lstyles.idBox} placeholder="Room Password"
-                style={{ width: 215 }} 
+                style={{ width: 215 }}
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button className={bstyles.btn} style={{

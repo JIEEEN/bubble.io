@@ -16,8 +16,10 @@ function CreateRoom() {
                 room: room,
                 roompwd: roompwd,
             });
+            console.log(room, roompwd)
         }
-        navigate('/room/list');
+        // navigate('/room/list');
+        navigate('/game');
     };
 
     return (
