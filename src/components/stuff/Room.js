@@ -79,6 +79,7 @@ function RoomList({ rooms }) {
         socket.emit('joinRoom', {
             room: room,
         });
+        navigate('/game', {state:{player_num: 2}})
     };
 
     return (

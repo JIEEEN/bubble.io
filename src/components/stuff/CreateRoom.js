@@ -19,7 +19,7 @@ function CreateRoom() {
             console.log(room, roompwd)
         }
         // navigate('/room/list');
-        navigate('/game');
+        navigate('/game', {state: {player_num: 1}});
     };
 
     return (
